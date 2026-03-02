@@ -1,0 +1,22 @@
+{
+  "version": 2,
+  "builds": [
+    { "src": "package.json", "use": "@vercel/next" }
+  ],
+  "functions": {
+    "src/app/api/admin/bookings/route.ts": { "runtime": "edge" },
+    "src/app/api/meeting-slots/route.ts": { "runtime": "edge" },
+    "src/app/api/bookings/slots/route.ts": { "runtime": "edge" }
+  },
+  "headers": [
+    {
+      "source": "/api/calendar/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=60, stale-while-revalidate=300" }
+      ]
+    }
+  ],
+  "routes": [
+    { "src": "/(.*)", "dest": "/$1" }
+  ]
+}
